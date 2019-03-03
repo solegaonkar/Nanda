@@ -10,12 +10,14 @@ package potdar.aishwarya.business;
  * @author soleg
  */
 public class BatchInfo {
-    private int id;
+    private int id = 0;
     private ModuleInfo module;
     private String name;
     private String schedule;
     private int studentCount = 0;
 
+    public BatchInfo(){}
+    
     public BatchInfo(int id, String name, ModuleInfo module, String schedule) {
         this.id = id;
         this.module = module;

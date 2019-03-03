@@ -43,8 +43,9 @@ public class StudentPanel extends javax.swing.JPanel {
         jtpPhone = new javax.swing.JTextPane();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "ID: "));
-        setMinimumSize(new java.awt.Dimension(800, 147));
-        setPreferredSize(new java.awt.Dimension(800, 147));
+        setMaximumSize(new java.awt.Dimension(698, 147));
+        setMinimumSize(new java.awt.Dimension(698, 147));
+        setPreferredSize(new java.awt.Dimension(698, 147));
 
         jbSave.setText("Add");
         jbSave.addActionListener(new java.awt.event.ActionListener() {

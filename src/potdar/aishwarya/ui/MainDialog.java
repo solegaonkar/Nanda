@@ -9,6 +9,7 @@ import javax.swing.BoxLayout;
 import javax.swing.UIManager;
 import potdar.aishwarya.business.BatchInfo;
 import potdar.aishwarya.business.Database;
+import potdar.aishwarya.business.ModuleInfo;
 import potdar.aishwarya.business.StudentInfo;
 
 /**
@@ -28,7 +29,7 @@ public class MainDialog extends javax.swing.JDialog {
         this.setResizable(false);
         loadStudentList();
         loadBatchList();
-        //loadModuleList();
+        loadModuleList();
     }
 
     /**
@@ -51,7 +52,8 @@ public class MainDialog extends javax.swing.JDialog {
         jScrollPane2 = new javax.swing.JScrollPane();
         batchListPanel = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        moduleListPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Glorious Students");
@@ -172,31 +174,37 @@ public class MainDialog extends javax.swing.JDialog {
 
         jTabbedPane1.addTab("Batches", jPanel2);
 
+        javax.swing.GroupLayout moduleListPanelLayout = new javax.swing.GroupLayout(moduleListPanel);
+        moduleListPanel.setLayout(moduleListPanelLayout);
+        moduleListPanelLayout.setHorizontalGroup(
+            moduleListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 837, Short.MAX_VALUE)
+        );
+        moduleListPanelLayout.setVerticalGroup(
+            moduleListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 417, Short.MAX_VALUE)
+        );
+
+        jScrollPane3.setViewportView(moduleListPanel);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 859, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 441, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3)
+                .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Exams", jPanel3);
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 859, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 441, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Reports", jPanel4);
+        jTabbedPane1.addTab("Modules", jPanel3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -290,17 +298,36 @@ public class MainDialog extends javax.swing.JDialog {
         instance.loadBatchList();
     }
 
+    private void loadModuleList() {
+        moduleListPanel.removeAll();
+        moduleListPanel.setLayout(new BoxLayout(moduleListPanel, BoxLayout.Y_AXIS));
+        ModulePanel p = new ModulePanel();
+        moduleListPanel.add(p);
+        for (ModuleInfo s : Database.getModuleList()) {
+            p = new ModulePanel();
+            p.setModuleInfo(s);
+            moduleListPanel.add(p);
+        }
+        moduleListPanel.revalidate();
+        moduleListPanel.repaint();
+    }
+    
+    public static void refreshModuleList() {
+        instance.loadModuleList();
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel batchListPanel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JPanel moduleListPanel;
     private javax.swing.JTextField studentFilterTextField;
     private javax.swing.JPanel studentListPanel;
     // End of variables declaration//GEN-END:variables

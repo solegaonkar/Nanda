@@ -19,7 +19,7 @@ import potdar.aishwarya.business.ModuleInfo;
  */
 public class BatchPanel extends javax.swing.JPanel {
 
-    private BatchInfo info = null;
+    private BatchInfo info = new BatchInfo();
     /**
      * Creates new form BatchPanel
      */
@@ -71,6 +71,17 @@ public class BatchPanel extends javax.swing.JPanel {
         batchSaveButton.setEnabled(true);
     }
 
+    private String readSchedule() {
+        StringBuilder sb = new StringBuilder();
+        sb.append((char) ((char) batchMondayCombo.getSelectedIndex() + 'A'));
+        sb.append((char) ((char) batchTuesdayCombo.getSelectedIndex() + 'A'));
+        sb.append((char) ((char) batchWednesdayCombo.getSelectedIndex() + 'A'));
+        sb.append((char) ((char) batchThursdayCombo.getSelectedIndex() + 'A'));
+        sb.append((char) ((char) batchFridayCombo.getSelectedIndex() + 'A'));
+        sb.append((char) ((char) batchSaturdayCombo.getSelectedIndex() + 'A'));
+        sb.append((char) ((char) batchSundayCombo.getSelectedIndex() + 'A'));
+        return sb.toString();
+    }
     private boolean isReadyForSave() {
         return (batchMondayCombo.getSelectedIndex() == 0) || (batchMondayCombo.getSelectedIndex() == 0) || (batchMondayCombo.getSelectedIndex() == 0) ||
                     (batchMondayCombo.getSelectedIndex() == 0) || (batchMondayCombo.getSelectedIndex() == 0) || (batchMondayCombo.getSelectedIndex() == 0) ||
@@ -79,7 +90,12 @@ public class BatchPanel extends javax.swing.JPanel {
     private void modified() {
         if (batchNameTextField.getText().length() > 40) 
             batchNameTextField.setText(batchNameTextField.getText().substring(0,40));
-        if (info == null) {
+        
+        info.setModule(Database.getModuleList().get(moduleCombo.getSelectedIndex()));
+        info.setName(batchNameTextField.getText());
+        info.setSchedule(readSchedule());
+        
+        if (info.getId() == 0) {
             batchSaveButton.setEnabled(isReadyForSave());
         } else {
             // Schedule defined for atleast one day
@@ -121,6 +137,8 @@ public class BatchPanel extends javax.swing.JPanel {
         batchSaveButton = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        setMaximumSize(new java.awt.Dimension(698, 208));
+        setMinimumSize(new java.awt.Dimension(698, 208));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Name"));
 
@@ -142,8 +160,6 @@ public class BatchPanel extends javax.swing.JPanel {
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Module"));
-
-        moduleCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -311,6 +327,11 @@ public class BatchPanel extends javax.swing.JPanel {
 
         batchSaveButton.setText("Add");
         batchSaveButton.setEnabled(false);
+        batchSaveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                batchSaveButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -370,6 +391,14 @@ public class BatchPanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void batchSaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_batchSaveButtonActionPerformed
+        if (batchSaveButton.getText().equals("X")) {
+            Database.deleteBatch(info.getId());
+        } else {
+            Database.saveBatch(info);
+        }
+    }//GEN-LAST:event_batchSaveButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -79,9 +79,9 @@ public class Database {
         moduleList = new ArrayList<>();
         try {
             connect();
-            ResultSet rs = stmt.executeQuery("SELECT id, name, months, fees FROM MODULE");
+            ResultSet rs = stmt.executeQuery("SELECT id, name, months, fees, notes FROM MODULE");
             while (rs.next()) {
-                moduleList.add(new ModuleInfo(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4)));
+                moduleList.add(new ModuleInfo(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getString(5)));
             }
             rs.close();
             close();
@@ -146,10 +146,10 @@ public class Database {
             connect();
             if (s.getId() == 0) {
                 // Insert
-                sql = String.format("INSERT INTO MODULE (name, months, fees) VALUES ('%s', %d, %d)", s.getName(), s.getMonths(), s.getFees());
+                sql = String.format("INSERT INTO MODULE (name, months, fees, notes) VALUES ('%s', %d, %d, '%s')", s.getName(), s.getMonths(), s.getFees(), s.getNotes().replaceAll("'", "''"));
             } else {
                 // Update
-                sql = String.format("UPDATE MODULE set name='%s', months=%d, fees=%d WHERE id = %d", s.getName(), s.getMonths(), s.getFees(), s.getId());
+                sql = String.format("UPDATE MODULE set name='%s', months=%d, fees=%d, notes='%s' WHERE id = %d", s.getName(), s.getMonths(), s.getFees(), s.getNotes().replaceAll("'", "''"), s.getId());
             }
             stmt.execute(sql);
             close();

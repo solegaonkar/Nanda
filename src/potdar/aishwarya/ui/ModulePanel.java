@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import potdar.aishwarya.business.Database;
 import potdar.aishwarya.business.ModuleInfo;
 
 /**
@@ -17,7 +18,7 @@ import potdar.aishwarya.business.ModuleInfo;
  */
 public class ModulePanel extends javax.swing.JPanel {
 
-    private ModuleInfo info = null;
+    private ModuleInfo info = new ModuleInfo();
     
     /**
      * Creates new form ModulePanel
@@ -66,14 +67,19 @@ public class ModulePanel extends javax.swing.JPanel {
             nameTextField.setText(nameTextField.getText().substring(0, 40));
         if (notesTextArea.getText().length() > 1000)
             notesTextArea.setText(notesTextArea.getText().substring(0, 1000));
-        if (info == null) {
+        info.setFees(Integer.parseInt(feeSpinner.getValue().toString()));
+        info.setMonths(Integer.parseInt(monthSpinner.getValue().toString()));
+        info.setName(nameTextField.getText());
+        info.setNotes(notesTextArea.getText());
+
+        if (info.getId() == 0) {
             saveButton.setEnabled(isReadyForSave());
         } else {
             // Schedule defined for atleast one day
             if (isReadyForSave()) {
-                saveButton.setText("X");
-            } else {
                 saveButton.setText("Save");
+            } else {
+                saveButton.setText("X");
             }
         }
     }
@@ -98,6 +104,9 @@ public class ModulePanel extends javax.swing.JPanel {
         saveButton = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        setMaximumSize(new java.awt.Dimension(698, 243));
+        setMinimumSize(new java.awt.Dimension(698, 243));
+        setPreferredSize(new java.awt.Dimension(698, 243));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Name"));
 
@@ -163,6 +172,7 @@ public class ModulePanel extends javax.swing.JPanel {
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Notes"));
 
         notesTextArea.setColumns(20);
+        notesTextArea.setLineWrap(true);
         notesTextArea.setRows(5);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -183,6 +193,11 @@ public class ModulePanel extends javax.swing.JPanel {
         );
 
         saveButton.setText("Add");
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -194,7 +209,7 @@ public class ModulePanel extends javax.swing.JPanel {
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -218,6 +233,14 @@ public class ModulePanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+        if (saveButton.getText().equals("X")) {
+            Database.deleteModule(info.getId());
+        } else {
+            Database.saveModule(info);
+        }
+    }//GEN-LAST:event_saveButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

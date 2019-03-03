@@ -17,11 +17,14 @@ public class ModuleInfo {
     private String notes;
     private int batchCount = 0;
 
-    public ModuleInfo(int id, String name, int months, int fees) {
+    public ModuleInfo(){}
+    
+    public ModuleInfo(int id, String name, int months, int fees, String notes) {
         this.id = id;
         this.name = name;
         this.months = months;
         this.fees = fees;
+        this.notes = notes;
     }
 
     public int getId() {
