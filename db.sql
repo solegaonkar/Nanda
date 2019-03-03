@@ -1,5 +1,9 @@
 create db sdb;
 use sdb;
+drop table module;
+drop table batch;
+drop table student;
+
 create table module (id int(5) unsigned auto_increment primary key not null, 
 					name varchar(40) not null, 
 					months int(5) unsigned,
