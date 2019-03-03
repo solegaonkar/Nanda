@@ -133,6 +133,9 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JTextField" name="batchNameTextField">
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="batchNameTextFieldKeyReleased"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -174,6 +177,9 @@
               <StringArray count="0"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="moduleComboActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -232,6 +238,9 @@
               </StringArray>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="batchMondayComboActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -290,6 +299,9 @@
               </StringArray>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="batchTuesdayComboActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -348,6 +360,9 @@
               </StringArray>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="batchWednesdayComboActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -406,6 +421,9 @@
               </StringArray>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="batchThursdayComboActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -464,6 +482,9 @@
               </StringArray>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="batchFridayComboActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -522,6 +543,9 @@
               </StringArray>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="batchSaturdayComboActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -580,6 +604,9 @@
               </StringArray>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="batchSundayComboActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

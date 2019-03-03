@@ -25,38 +25,13 @@ public class BatchPanel extends javax.swing.JPanel {
      */
     public BatchPanel() {
         initComponents();
-        addListeners();
         for (ModuleInfo m : Database.getModuleList()) {
             moduleCombo.addItem(m);
         }
     }
 
-    private void addListeners() {
-        ActionListener al = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                modified();
-            }
-        };
-        batchMondayCombo.addActionListener(al);
-        batchTuesdayCombo.addActionListener(al);
-        batchWednesdayCombo.addActionListener(al);
-        batchThursdayCombo.addActionListener(al);
-        batchFridayCombo.addActionListener(al);
-        batchSaturdayCombo.addActionListener(al);
-        batchSundayCombo.addActionListener(al);
-        moduleCombo.addActionListener(al);
-        batchNameTextField.addKeyListener(new KeyListener(){
-            @Override
-            public void keyTyped(KeyEvent e) {modified();}
-            @Override
-            public void keyPressed(KeyEvent e) {}
-            @Override
-            public void keyReleased(KeyEvent e) {modified();}
-        });
-    }
-
     public void setBatchInfo(BatchInfo info) {
+        this.info = info;
         batchNameTextField.setText(info.getName());
         batchMondayCombo.setSelectedIndex(info.getSchedule().charAt(0) - 'A');
         batchTuesdayCombo.setSelectedIndex(info.getSchedule().charAt(1) - 'A');
@@ -83,23 +58,20 @@ public class BatchPanel extends javax.swing.JPanel {
         return sb.toString();
     }
     private boolean isReadyForSave() {
-        return (batchMondayCombo.getSelectedIndex() == 0) || (batchMondayCombo.getSelectedIndex() == 0) || (batchMondayCombo.getSelectedIndex() == 0) ||
-                    (batchMondayCombo.getSelectedIndex() == 0) || (batchMondayCombo.getSelectedIndex() == 0) || (batchMondayCombo.getSelectedIndex() == 0) ||
-                    (batchMondayCombo.getSelectedIndex() == 0) || (batchNameTextField.getText().replaceAll(" ", "").isEmpty());
+        return !((batchMondayCombo.getSelectedIndex() == 0) && (batchTuesdayCombo.getSelectedIndex() == 0) && (batchWednesdayCombo.getSelectedIndex() == 0) &&
+                    (batchThursdayCombo.getSelectedIndex() == 0) && (batchFridayCombo.getSelectedIndex() == 0) && (batchSaturdayCombo.getSelectedIndex() == 0) &&
+                    (batchSundayCombo.getSelectedIndex() == 0)) && !(batchNameTextField.getText().replaceAll(" ", "").isEmpty());
     }
+
     private void modified() {
         if (batchNameTextField.getText().length() > 40) 
             batchNameTextField.setText(batchNameTextField.getText().substring(0,40));
-        
-        info.setModule(Database.getModuleList().get(moduleCombo.getSelectedIndex()));
-        info.setName(batchNameTextField.getText());
-        info.setSchedule(readSchedule());
         
         if (info.getId() == 0) {
             batchSaveButton.setEnabled(isReadyForSave());
         } else {
             // Schedule defined for atleast one day
-            if (isReadyForSave()) {
+            if (!isReadyForSave()) {
                 batchSaveButton.setText("X");
             } else {
                 batchSaveButton.setText("Save");
@@ -142,6 +114,12 @@ public class BatchPanel extends javax.swing.JPanel {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Name"));
 
+        batchNameTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                batchNameTextFieldKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -160,6 +138,12 @@ public class BatchPanel extends javax.swing.JPanel {
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Module"));
+
+        moduleCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                moduleComboActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -181,6 +165,11 @@ public class BatchPanel extends javax.swing.JPanel {
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Monday"));
 
         batchMondayCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "06 - 07", "07 - 08", "08 - 09", "09 - 10", "10 - 11", "11 - 12", "12 - 13", "13 - 14", "14 - 15", "15 - 16", "16 - 17", "17 - 18", "18 - 19", "19 - 20", "20 - 21" }));
+        batchMondayCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                batchMondayComboActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -202,6 +191,11 @@ public class BatchPanel extends javax.swing.JPanel {
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tuesday"));
 
         batchTuesdayCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "06 - 07", "07 - 08", "08 - 09", "09 - 10", "10 - 11", "11 - 12", "12 - 13", "13 - 14", "14 - 15", "15 - 16", "16 - 17", "17 - 18", "18 - 19", "19 - 20", "20 - 21" }));
+        batchTuesdayCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                batchTuesdayComboActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -223,6 +217,11 @@ public class BatchPanel extends javax.swing.JPanel {
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Wednesday"));
 
         batchWednesdayCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "06 - 07", "07 - 08", "08 - 09", "09 - 10", "10 - 11", "11 - 12", "12 - 13", "13 - 14", "14 - 15", "15 - 16", "16 - 17", "17 - 18", "18 - 19", "19 - 20", "20 - 21" }));
+        batchWednesdayCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                batchWednesdayComboActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -244,6 +243,11 @@ public class BatchPanel extends javax.swing.JPanel {
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thursday"));
 
         batchThursdayCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "06 - 07", "07 - 08", "08 - 09", "09 - 10", "10 - 11", "11 - 12", "12 - 13", "13 - 14", "14 - 15", "15 - 16", "16 - 17", "17 - 18", "18 - 19", "19 - 20", "20 - 21" }));
+        batchThursdayCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                batchThursdayComboActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -265,6 +269,11 @@ public class BatchPanel extends javax.swing.JPanel {
         jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Friday"));
 
         batchFridayCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "06 - 07", "07 - 08", "08 - 09", "09 - 10", "10 - 11", "11 - 12", "12 - 13", "13 - 14", "14 - 15", "15 - 16", "16 - 17", "17 - 18", "18 - 19", "19 - 20", "20 - 21" }));
+        batchFridayCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                batchFridayComboActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -286,6 +295,11 @@ public class BatchPanel extends javax.swing.JPanel {
         jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Saturday"));
 
         batchSaturdayCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "06 - 07", "07 - 08", "08 - 09", "09 - 10", "10 - 11", "11 - 12", "12 - 13", "13 - 14", "14 - 15", "15 - 16", "16 - 17", "17 - 18", "18 - 19", "19 - 20", "20 - 21" }));
+        batchSaturdayCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                batchSaturdayComboActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -307,6 +321,11 @@ public class BatchPanel extends javax.swing.JPanel {
         jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Sunday"));
 
         batchSundayCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "06 - 07", "07 - 08", "08 - 09", "09 - 10", "10 - 11", "11 - 12", "12 - 13", "13 - 14", "14 - 15", "15 - 16", "16 - 17", "17 - 18", "18 - 19", "19 - 20", "20 - 21" }));
+        batchSundayCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                batchSundayComboActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -393,12 +412,53 @@ public class BatchPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void batchSaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_batchSaveButtonActionPerformed
+        info.setModule(Database.getModuleList().get(moduleCombo.getSelectedIndex()));
+        info.setName(batchNameTextField.getText());
+        info.setSchedule(readSchedule());
+
         if (batchSaveButton.getText().equals("X")) {
             Database.deleteBatch(info.getId());
         } else {
             Database.saveBatch(info);
         }
+        MainDialog.refreshBatchList();
     }//GEN-LAST:event_batchSaveButtonActionPerformed
+
+    private void batchWednesdayComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_batchWednesdayComboActionPerformed
+        modified();
+    }//GEN-LAST:event_batchWednesdayComboActionPerformed
+
+    private void batchMondayComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_batchMondayComboActionPerformed
+        modified();
+    }//GEN-LAST:event_batchMondayComboActionPerformed
+
+    private void batchTuesdayComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_batchTuesdayComboActionPerformed
+        modified();
+    }//GEN-LAST:event_batchTuesdayComboActionPerformed
+
+    private void batchThursdayComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_batchThursdayComboActionPerformed
+        modified();
+    }//GEN-LAST:event_batchThursdayComboActionPerformed
+
+    private void batchFridayComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_batchFridayComboActionPerformed
+        modified();
+    }//GEN-LAST:event_batchFridayComboActionPerformed
+
+    private void batchSaturdayComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_batchSaturdayComboActionPerformed
+        modified();
+    }//GEN-LAST:event_batchSaturdayComboActionPerformed
+
+    private void batchSundayComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_batchSundayComboActionPerformed
+        modified();
+    }//GEN-LAST:event_batchSundayComboActionPerformed
+
+    private void moduleComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moduleComboActionPerformed
+        modified();
+    }//GEN-LAST:event_moduleComboActionPerformed
+
+    private void batchNameTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_batchNameTextFieldKeyReleased
+        modified();
+    }//GEN-LAST:event_batchNameTextFieldKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

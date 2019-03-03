@@ -37,18 +37,11 @@ public class ModulePanel extends javax.swing.JPanel {
         };
         feeSpinner.addChangeListener(cl);
         monthSpinner.addChangeListener(cl);
-        notesTextArea.addKeyListener(new KeyListener(){
-            @Override
-            public void keyTyped(KeyEvent e) {modified();}
-            @Override
-            public void keyPressed(KeyEvent e) {}
-            @Override
-            public void keyReleased(KeyEvent e) {modified();}
-        });
     }
 
 
     public void setModuleInfo(ModuleInfo info) {
+        this.info = info;
         nameTextField.setText(info.getName());
         monthSpinner.setValue(info.getMonths());
         feeSpinner.setValue(info.getFees());
@@ -61,16 +54,12 @@ public class ModulePanel extends javax.swing.JPanel {
     private boolean isReadyForSave() {
         return !nameTextField.getText().replaceAll(" ", "").isEmpty() && !notesTextArea.getText().replaceAll(" ", "").isEmpty();
     }
-    
+
     private void modified() {
         if (nameTextField.getText().length() > 40)
             nameTextField.setText(nameTextField.getText().substring(0, 40));
         if (notesTextArea.getText().length() > 1000)
             notesTextArea.setText(notesTextArea.getText().substring(0, 1000));
-        info.setFees(Integer.parseInt(feeSpinner.getValue().toString()));
-        info.setMonths(Integer.parseInt(monthSpinner.getValue().toString()));
-        info.setName(nameTextField.getText());
-        info.setNotes(notesTextArea.getText());
 
         if (info.getId() == 0) {
             saveButton.setEnabled(isReadyForSave());
@@ -109,6 +98,12 @@ public class ModulePanel extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(698, 243));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Name"));
+
+        nameTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                nameTextFieldKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -174,6 +169,11 @@ public class ModulePanel extends javax.swing.JPanel {
         notesTextArea.setColumns(20);
         notesTextArea.setLineWrap(true);
         notesTextArea.setRows(5);
+        notesTextArea.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                notesTextAreaKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -193,6 +193,7 @@ public class ModulePanel extends javax.swing.JPanel {
         );
 
         saveButton.setText("Add");
+        saveButton.setEnabled(false);
         saveButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveButtonActionPerformed(evt);
@@ -235,12 +236,25 @@ public class ModulePanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+        info.setFees(Integer.parseInt(feeSpinner.getValue().toString()));
+        info.setMonths(Integer.parseInt(monthSpinner.getValue().toString()));
+        info.setName(nameTextField.getText());
+        info.setNotes(notesTextArea.getText());
         if (saveButton.getText().equals("X")) {
             Database.deleteModule(info.getId());
         } else {
             Database.saveModule(info);
         }
+        MainDialog.refreshModuleList();
     }//GEN-LAST:event_saveButtonActionPerformed
+
+    private void notesTextAreaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_notesTextAreaKeyReleased
+        modified();
+    }//GEN-LAST:event_notesTextAreaKeyReleased
+
+    private void nameTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameTextFieldKeyReleased
+        modified();
+    }//GEN-LAST:event_nameTextFieldKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

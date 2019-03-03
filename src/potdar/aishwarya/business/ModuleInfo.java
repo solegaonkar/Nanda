@@ -25,6 +25,8 @@ public class ModuleInfo {
         this.months = months;
         this.fees = fees;
         this.notes = notes;
+        System.out.println(getId() + ":" + getName() + ":" + getMonths() + ":" + getFees() + ":" + getNotes());
+
     }
 
     public int getId() {

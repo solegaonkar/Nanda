@@ -185,11 +185,13 @@ public class Database {
         try {
             connect();
             stmt.execute(String.format("DELETE FROM MODULE WHERE id = %d", id));
+            System.out.println("Deleting Module: " + id);
+
             close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        loadStudentList();
+        loadModuleList();
     }
     
     public static BatchInfo getBatch(int id) {

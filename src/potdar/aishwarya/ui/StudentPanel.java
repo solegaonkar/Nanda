@@ -188,10 +188,8 @@ public class StudentPanel extends javax.swing.JPanel {
             MainDialog.refreshStudentList();        
         } else {
             Database.saveStudent(info);
-            if (info.getId() == 0)
-                MainDialog.refreshStudentList();
         }
-
+        MainDialog.refreshStudentList();        
     }//GEN-LAST:event_jbSaveActionPerformed
 
     private void jtpPhoneKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtpPhoneKeyReleased
