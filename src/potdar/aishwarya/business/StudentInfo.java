@@ -14,13 +14,15 @@ public class StudentInfo {
     private String name;
     private long phone;
     private String email;
+    private BatchInfo batch;
 
     public StudentInfo(){}
-    public StudentInfo(int id, String name, long phone, String email) {
+    public StudentInfo(int id, String name, long phone, String email, BatchInfo batch) {
         this.id = id;
         this.name = name;
         this.phone = phone;
         this.email = email;
+        this.batch = batch;
     }
 
     public int getId() {
@@ -55,9 +57,16 @@ public class StudentInfo {
         this.email = email;
     }
 
+    public BatchInfo getBatch() {
+        return batch;
+    }
+
+    public void setBatch(BatchInfo batch) {
+        this.batch = batch;
+    }
+
     public boolean matches(String s) {
         System.out.println("match " + s + " " + this.name);
         return (s == null) || (name.toLowerCase().contains(s.toLowerCase()));
     }
-    
 }

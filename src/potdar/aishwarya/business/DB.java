@@ -11,11 +11,11 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-/**`
+/**
  *
- * @author soleg
+ * @author Aishwarya
  */
-public class Database {
+public class DB {
     private static ArrayList<StudentInfo> studentList;
     private static ArrayList<BatchInfo> batchList;
     private static ArrayList<ModuleInfo> moduleList;
@@ -207,26 +207,4 @@ public class Database {
         }
         return null;
     }
-    
-    public static ArrayList<ModuleInfo> getModuleList() {
-        return moduleList;
-    }
-    
-    public static ArrayList<BatchInfo> getBatchList() {
-        return batchList;
-    }
-    
-    public static ArrayList<StudentInfo> getStudentList() {
-        return studentList;
-    }
-
-    public static ArrayList<StudentInfo> getStudentList(String filter) {
-        ArrayList<StudentInfo> filterList = new ArrayList<>();
-        for (StudentInfo s : studentList) {
-            if (s.matches(filter))
-                filterList.add(s);
-        }
-        return filterList;
-    }
 }
-

@@ -55,7 +55,7 @@ public class StudentPanel extends javax.swing.JPanel {
 
         jlBatch.setText("Batch");
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Name"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Name"));
 
         jtpName.setBorder(null);
         jtpName.setToolTipText("");
@@ -82,7 +82,7 @@ public class StudentPanel extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Email"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Email"));
 
         jtpEmail.setBorder(null);
         jtpEmail.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -108,7 +108,7 @@ public class StudentPanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Phone"));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Phone"));
 
         jtpPhone.setBorder(null);
         jtpPhone.addKeyListener(new java.awt.event.KeyAdapter() {

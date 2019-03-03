@@ -7,6 +7,7 @@ package potdar.aishwarya.ui;
 
 import javax.swing.BoxLayout;
 import javax.swing.UIManager;
+import potdar.aishwarya.business.BatchInfo;
 import potdar.aishwarya.business.Database;
 import potdar.aishwarya.business.StudentInfo;
 
@@ -24,8 +25,10 @@ public class MainDialog extends javax.swing.JDialog {
         super(parent, modal);
         instance = this;
         initComponents();
-        loadStudentList();
         this.setResizable(false);
+        loadStudentList();
+        loadBatchList();
+        //loadModuleList();
     }
 
     /**
@@ -38,6 +41,7 @@ public class MainDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel6 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         studentFilterTextField = new javax.swing.JTextField();
@@ -51,9 +55,21 @@ public class MainDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Glorious Students");
-        setPreferredSize(null);
 
         jTabbedPane1.setMinimumSize(new java.awt.Dimension(805, 175));
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 859, Short.MAX_VALUE)
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 441, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Welcome", jPanel6);
 
         jPanel1.setMinimumSize(new java.awt.Dimension(820, 468));
         jPanel1.setPreferredSize(new java.awt.Dimension(800, 147));
@@ -237,7 +253,7 @@ public class MainDialog extends javax.swing.JDialog {
         });
     }
 
-        private void loadStudentList() {
+    private void loadStudentList() {
         studentListPanel.removeAll();
         studentListPanel.setLayout(new BoxLayout(studentListPanel, BoxLayout.Y_AXIS));
         StudentPanel p = new StudentPanel();
@@ -256,6 +272,24 @@ public class MainDialog extends javax.swing.JDialog {
         instance.loadStudentList();
     }
 
+    private void loadBatchList() {
+        batchListPanel.removeAll();
+        batchListPanel.setLayout(new BoxLayout(batchListPanel, BoxLayout.Y_AXIS));
+        BatchPanel p = new BatchPanel();
+        batchListPanel.add(p);
+        for (BatchInfo s : Database.getBatchList()) {
+            p = new BatchPanel();
+            p.setBatchInfo(s);
+            batchListPanel.add(p);
+        }
+        batchListPanel.revalidate();
+        batchListPanel.repaint();
+    }
+    
+    public static void refreshBatchList() {
+        instance.loadBatchList();
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel batchListPanel;
     private javax.swing.JPanel jPanel1;
@@ -263,6 +297,7 @@ public class MainDialog extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
