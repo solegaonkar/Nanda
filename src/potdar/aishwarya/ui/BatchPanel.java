@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import javax.swing.JOptionPane;
 import potdar.aishwarya.business.BatchInfo;
 import potdar.aishwarya.business.Database;
 import potdar.aishwarya.business.ModuleInfo;
@@ -41,9 +42,14 @@ public class BatchPanel extends javax.swing.JPanel {
         batchSaturdayCombo.setSelectedIndex(info.getSchedule().charAt(5) - 'A');
         batchSundayCombo.setSelectedIndex(info.getSchedule().charAt(6) - 'A');
         moduleCombo.setSelectedItem(info.getModule());
+        labelStudents.setText("Students Registered: " + info.getStudentCount());
 
         batchSaveButton.setText("X");
-        batchSaveButton.setEnabled(true);
+        if (info.getStudentCount() == 0) {
+            batchSaveButton.setEnabled(true);
+        } else {
+            batchSaveButton.setEnabled(false);
+        }
     }
 
     private String readSchedule() {
@@ -57,6 +63,7 @@ public class BatchPanel extends javax.swing.JPanel {
         sb.append((char) ((char) batchSundayCombo.getSelectedIndex() + 'A'));
         return sb.toString();
     }
+
     private boolean isReadyForSave() {
         return !((batchMondayCombo.getSelectedIndex() == 0) && (batchTuesdayCombo.getSelectedIndex() == 0) && (batchWednesdayCombo.getSelectedIndex() == 0) &&
                     (batchThursdayCombo.getSelectedIndex() == 0) && (batchFridayCombo.getSelectedIndex() == 0) && (batchSaturdayCombo.getSelectedIndex() == 0) &&
@@ -73,8 +80,14 @@ public class BatchPanel extends javax.swing.JPanel {
             // Schedule defined for atleast one day
             if (!isReadyForSave()) {
                 batchSaveButton.setText("X");
+                if (info.getStudentCount() == 0) {
+                    batchSaveButton.setEnabled(true);
+                } else {
+                    batchSaveButton.setEnabled(false);
+                }
             } else {
                 batchSaveButton.setText("Save");
+                batchSaveButton.setEnabled(true);
             }
         }
     }
@@ -107,6 +120,7 @@ public class BatchPanel extends javax.swing.JPanel {
         jPanel10 = new javax.swing.JPanel();
         batchSundayCombo = new javax.swing.JComboBox();
         batchSaveButton = new javax.swing.JButton();
+        labelStudents = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setMaximumSize(new java.awt.Dimension(698, 208));
@@ -352,6 +366,8 @@ public class BatchPanel extends javax.swing.JPanel {
             }
         });
 
+        labelStudents.setText("Students Registered: 0");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -359,15 +375,6 @@ public class BatchPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(batchSaveButton)
-                                .addGap(27, 27, 27))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -385,7 +392,16 @@ public class BatchPanel extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(labelStudents)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(batchSaveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -406,12 +422,19 @@ public class BatchPanel extends javax.swing.JPanel {
                     .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(batchSaveButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(batchSaveButton)
+                    .addComponent(labelStudents))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void batchSaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_batchSaveButtonActionPerformed
+        if (info != null && !info.getModule().equals(Database.getModuleList().get(moduleCombo.getSelectedIndex()))) {
+            JOptionPane.showMessageDialog(this, "Module changed for batch. All students will be charged for new module");
+            Database.resetBatchStudentFees(info.getId());
+        }
+        
         info.setModule(Database.getModuleList().get(moduleCombo.getSelectedIndex()));
         info.setName(batchNameTextField.getText());
         info.setSchedule(readSchedule());
@@ -480,6 +503,7 @@ public class BatchPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JLabel labelStudents;
     private javax.swing.JComboBox moduleCombo;
     // End of variables declaration//GEN-END:variables
 }

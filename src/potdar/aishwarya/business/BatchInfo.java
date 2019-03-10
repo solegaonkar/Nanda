@@ -69,6 +69,4 @@ public class BatchInfo {
     public void setStudentCount(int studentCount) {
         this.studentCount = studentCount;
     }
-    
-    
 }

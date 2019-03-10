@@ -62,11 +62,6 @@ public class MainDialog extends javax.swing.JDialog {
         setBackground(new java.awt.Color(255, 204, 204));
 
         jTabbedPane1.setMinimumSize(new java.awt.Dimension(805, 175));
-        jTabbedPane1.setPreferredSize(null);
-
-        jPanel6.setPreferredSize(null);
-
-        jPanel4.setPreferredSize(null);
 
         javax.swing.GroupLayout imagePanel1Layout = new javax.swing.GroupLayout(imagePanel1);
         imagePanel1.setLayout(imagePanel1Layout);
@@ -117,7 +112,6 @@ public class MainDialog extends javax.swing.JDialog {
 
         jTabbedPane1.addTab("Welcome", jPanel6);
 
-        jPanel1.setMinimumSize(null);
         jPanel1.setPreferredSize(new java.awt.Dimension(800, 147));
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Filter"));
@@ -147,8 +141,6 @@ public class MainDialog extends javax.swing.JDialog {
 
         jScrollPane1.setMinimumSize(new java.awt.Dimension(0, 0));
         jScrollPane1.setRequestFocusEnabled(false);
-
-        studentListPanel.setMinimumSize(null);
 
         javax.swing.GroupLayout studentListPanelLayout = new javax.swing.GroupLayout(studentListPanel);
         studentListPanel.setLayout(studentListPanelLayout);
@@ -319,7 +311,7 @@ public class MainDialog extends javax.swing.JDialog {
         studentListPanel.repaint();
         jScrollPane1.getVerticalScrollBar().setValue(0);
     }
-    
+
     public static void refreshStudentList() {
         instance.loadStudentList();
     }
@@ -337,9 +329,10 @@ public class MainDialog extends javax.swing.JDialog {
         batchListPanel.revalidate();
         batchListPanel.repaint();
     }
-    
+
     public static void refreshBatchList() {
         instance.loadBatchList();
+        instance.loadStudentList();
     }
 
     private void loadModuleList() {
@@ -355,9 +348,11 @@ public class MainDialog extends javax.swing.JDialog {
         moduleListPanel.revalidate();
         moduleListPanel.repaint();
     }
-    
+
     public static void refreshModuleList() {
         instance.loadModuleList();
+        instance.loadBatchList();
+        instance.loadStudentList();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

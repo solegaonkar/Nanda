@@ -24,19 +24,19 @@ create table batch (id int(5) unsigned auto_increment primary key not null,
 					name varchar(40) not null, 
 					module_id int(5) unsigned not null, 
 					schedule varchar(10));
-insert into batch (name, module_id, schedule) values ('Early Morning', 0, 'ABAABAA');
-insert into batch (name, module_id, schedule) values ('Afternoon', 6, 'AFAAFAA');
-insert into batch (name, module_id, schedule) values ('Evening', 7, 'AJAAJAA');
+insert into batch (name, module_id, schedule) values ('Early Morning', 1, 'ABAABAA');
+insert into batch (name, module_id, schedule) values ('Afternoon', 2, 'AFAAFAA');
+insert into batch (name, module_id, schedule) values ('Evening', 3, 'AJAAJAA');
 
 
 create table student (id int(5) unsigned auto_increment primary key not null, 
 					name varchar(40) not null, 
 					phone varchar(15), 
 					email varchar(40), 
+					fees_paid int(5) unsigned not null,
 					batch_id int(5) not null);
 
-insert into student(name, phone, email, batch_id) values ('Donald Trump', 9876543210, 'donald.trump@gmail.com', 0);
+insert into student(name, phone, email, batch_id) values ('Donald Trump', 9876543210, 'donald.trump@gmail.com', 1);
 insert into student(name, phone, email, batch_id) values ('Barac Obama', 1234567890, 'barac.obama@gmail.com', 1);
 insert into student(name, phone, email, batch_id) values ('George Bush', 9876543210, 'george.bush@gmail.com', 2);
 insert into student(name, phone, email, batch_id) values ('Bill Clinton', 1234567890, 'bill.clinton@gmail.com', 3);
-

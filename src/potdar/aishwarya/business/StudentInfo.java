@@ -14,14 +14,16 @@ public class StudentInfo {
     private String name;
     private long phone;
     private String email;
+    private int feesPaid;
     private BatchInfo batch;
 
     public StudentInfo(){}
-    public StudentInfo(int id, String name, long phone, String email, BatchInfo batch) {
+    public StudentInfo(int id, String name, long phone, String email, int feesPaid, BatchInfo batch) {
         this.id = id;
         this.name = name;
         this.phone = phone;
         this.email = email;
+        this.feesPaid= feesPaid;
         this.batch = batch;
     }
 
@@ -63,6 +65,14 @@ public class StudentInfo {
 
     public void setBatch(BatchInfo batch) {
         this.batch = batch;
+    }
+
+    public int getFeesPaid() {
+        return feesPaid;
+    }
+
+    public void setFeesPaid(int feesPaid) {
+        this.feesPaid = feesPaid;
     }
 
     public boolean matches(String s) {

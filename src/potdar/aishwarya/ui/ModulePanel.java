@@ -5,8 +5,6 @@
  */
 package potdar.aishwarya.ui;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import potdar.aishwarya.business.Database;
@@ -39,7 +37,6 @@ public class ModulePanel extends javax.swing.JPanel {
         monthSpinner.addChangeListener(cl);
     }
 
-
     public void setModuleInfo(ModuleInfo info) {
         this.info = info;
         nameTextField.setText(info.getName());
@@ -47,8 +44,14 @@ public class ModulePanel extends javax.swing.JPanel {
         feeSpinner.setValue(info.getFees());
         notesTextArea.setText(info.getNotes());
 
+        batchCountLabel.setText("Batch Count: " + info.getBatchCount());
+
         saveButton.setText("X");
-        saveButton.setEnabled(true);
+        if (info.getBatchCount() == 0) {
+            saveButton.setEnabled(true);
+        } else {
+            saveButton.setEnabled(false);
+        }
     }
 
     private boolean isReadyForSave() {
@@ -67,8 +70,14 @@ public class ModulePanel extends javax.swing.JPanel {
             // Schedule defined for atleast one day
             if (isReadyForSave()) {
                 saveButton.setText("Save");
+                    saveButton.setEnabled(true);
             } else {
                 saveButton.setText("X");
+                if (info.getBatchCount() == 0) {
+                    saveButton.setEnabled(true);
+                } else {
+                    saveButton.setEnabled(false);
+                }
             }
         }
     }
@@ -91,6 +100,7 @@ public class ModulePanel extends javax.swing.JPanel {
         jPanel4 = new javax.swing.JPanel();
         notesTextArea = new javax.swing.JTextArea();
         saveButton = new javax.swing.JButton();
+        batchCountLabel = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setMaximumSize(new java.awt.Dimension(698, 243));
@@ -200,6 +210,8 @@ public class ModulePanel extends javax.swing.JPanel {
             }
         });
 
+        batchCountLabel.setText("Batch Count: 0");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -215,7 +227,8 @@ public class ModulePanel extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(batchCountLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(saveButton)))
                 .addContainerGap())
         );
@@ -230,7 +243,9 @@ public class ModulePanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(saveButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(saveButton)
+                    .addComponent(batchCountLabel))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -258,6 +273,7 @@ public class ModulePanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel batchCountLabel;
     private javax.swing.JSpinner feeSpinner;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

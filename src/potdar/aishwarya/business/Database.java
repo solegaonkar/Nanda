@@ -36,9 +36,9 @@ public class Database {
         try {
             connect();
             System.out.println("Connected");
-            ResultSet rs = stmt.executeQuery("SELECT id, name, phone, email, batch_id FROM STUDENT");
+            ResultSet rs = stmt.executeQuery("SELECT id, name, phone, email, fees_paid, batch_id FROM STUDENT");
             while (rs.next()) {
-                studentList.add(new StudentInfo(rs.getInt(1), rs.getString(2), rs.getLong(3), rs.getString(4), getBatch(rs.getInt(5))));
+                studentList.add(new StudentInfo(rs.getInt(1), rs.getString(2), rs.getLong(3), rs.getString(4), rs.getInt(5), getBatch(rs.getInt(6))));
             }
             rs.close();
             close();
@@ -110,7 +110,7 @@ public class Database {
                 sql = String.format("INSERT INTO STUDENT (name, phone, email, batch_id) VALUES ('%s', %d, '%s', %d)", s.getName(), s.getPhone(), s.getEmail(), s.getBatch().getId());
             } else {
                 // Update
-                sql = String.format("UPDATE STUDENT set name='%s', phone=%d, email='%s', batch_id=%d WHERE id = %d", s.getName(), s.getPhone(), s.getEmail(), s.getBatch().getId(), s.getId());
+                sql = String.format("UPDATE STUDENT set name='%s', phone=%d, email='%s', fees_paid=%d, batch_id=%d WHERE id = %d", s.getName(), s.getPhone(), s.getEmail(), s.getFeesPaid(), s.getBatch().getId(), s.getId());
             }
             System.out.println(sql);
             stmt.execute(sql);
@@ -193,7 +193,21 @@ public class Database {
         }
         loadModuleList();
     }
-    
+
+    public static void resetBatchStudentFees(int id) {
+        try {
+            String sql;
+            connect();
+            sql = String.format("UPDATE STUDENT set fees_paid=0 WHERE batch_id = %d", id);
+            System.out.println(sql);
+            stmt.execute(sql);
+            close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        loadStudentList();
+    }
+
     public static BatchInfo getBatch(int id) {
         for (BatchInfo b : batchList) {
             if (b.getId() == id) 
@@ -230,5 +244,5 @@ public class Database {
         }
         return filterList;
     }
-}
 
+}

@@ -5,6 +5,7 @@
  */
 package potdar.aishwarya.ui;
 
+import potdar.aishwarya.business.BatchInfo;
 import potdar.aishwarya.business.Database;
 import potdar.aishwarya.business.StudentInfo;
 
@@ -22,6 +23,35 @@ public class StudentPanel extends javax.swing.JPanel {
     public StudentPanel() {
         initComponents();
         this.setPreferredSize(this.getPreferredSize());
+        for (BatchInfo m : Database.getBatchList()) {
+            batchCombo.addItem(m);
+        }
+    }
+
+    private void modified() {
+        if (info.getId() == 0) {
+            jbSave.setEnabled(isReadyForSave());
+        } else {
+            updateFeesLabel();
+            if (!isReadyForSave()) {
+                jbSave.setText("X");
+            } else {
+                jbSave.setText("Save");
+            }
+        }
+    }
+
+    private void updateFeesLabel() {
+        int fees = info.getBatch().getModule().getFees();
+        if (cbFees.isSelected()) {
+            cbFees.setText("Paid: Rs. " + fees);
+        } else {
+            cbFees.setText("Pending: Rs. " + fees);
+        }
+    }
+
+    private boolean isReadyForSave() {
+        return !(jtpName.getText().replaceAll(" ", "").isEmpty() || jtpEmail.getText().replaceAll(" ", "").isEmpty() || jtpPhone.getText().replaceAll(" ", "").isEmpty());
     }
 
     /**
@@ -34,18 +64,21 @@ public class StudentPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jbSave = new javax.swing.JButton();
-        jlBatch = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jtpName = new javax.swing.JTextPane();
         jPanel2 = new javax.swing.JPanel();
         jtpEmail = new javax.swing.JTextPane();
         jPanel3 = new javax.swing.JPanel();
         jtpPhone = new javax.swing.JTextPane();
+        jPanel4 = new javax.swing.JPanel();
+        batchCombo = new javax.swing.JComboBox();
+        jPanel5 = new javax.swing.JPanel();
+        cbFees = new javax.swing.JCheckBox();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "ID: "));
-        setMaximumSize(new java.awt.Dimension(698, 147));
-        setMinimumSize(new java.awt.Dimension(698, 147));
-        setPreferredSize(new java.awt.Dimension(698, 147));
+        setMaximumSize(new java.awt.Dimension(698, 175));
+        setMinimumSize(new java.awt.Dimension(698, 175));
+        setPreferredSize(new java.awt.Dimension(698, 175));
 
         jbSave.setText("Add");
         jbSave.addActionListener(new java.awt.event.ActionListener() {
@@ -53,8 +86,6 @@ public class StudentPanel extends javax.swing.JPanel {
                 jbSaveActionPerformed(evt);
             }
         });
-
-        jlBatch.setText("Batch");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Name"));
 
@@ -80,7 +111,7 @@ public class StudentPanel extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jtpName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(140, 140, 140))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Email"));
@@ -98,7 +129,7 @@ public class StudentPanel extends javax.swing.JPanel {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jtpEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
+                .addComponent(jtpEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -135,11 +166,63 @@ public class StudentPanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Batch"));
+
+        batchCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                batchComboActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(batchCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(batchCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Fees"));
+
+        cbFees.setText("Pending");
+        cbFees.setEnabled(false);
+        cbFees.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbFeesActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(cbFees)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(cbFees)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -149,9 +232,11 @@ public class StudentPanel extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jlBatch)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbSave)))
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jbSave, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -159,17 +244,22 @@ public class StudentPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(jbSave))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jlBatch)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 1, Short.MAX_VALUE))
+                            .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jbSave)
+                        .addGap(27, 27, 27))))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -178,42 +268,66 @@ public class StudentPanel extends javax.swing.JPanel {
         this.jtpEmail.setText(info.getEmail());
         this.jtpName.setText(info.getName());
         this.jtpPhone.setText(Long.toString(info.getPhone()));
+        this.batchCombo.setSelectedItem(info.getBatch());
         setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "ID: " + info.getId()));
         jbSave.setText("X");
+        jbSave.setEnabled(true);
+        cbFees.setEnabled(true);
+        if (info.getFeesPaid() > 0) {
+            cbFees.setSelected(true);
+        }
+        updateFeesLabel();
     }
-    
+
     private void jbSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSaveActionPerformed
         if (jbSave.getText().equals("X")) {
             Database.deleteStudent(info.getId());
-            MainDialog.refreshStudentList();        
+            MainDialog.refreshStudentList();
         } else {
+            info.setBatch(Database.getBatchList().get(batchCombo.getSelectedIndex()));
+            info.setEmail(jtpEmail.getText());
+            info.setName(jtpName.getText());
+            info.setPhone(Long.parseLong(jtpPhone.getText()));
+            if (cbFees.isSelected()) {
+                info.setFeesPaid(info.getBatch().getModule().getFees());
+            } else {
+                info.setFeesPaid(0);
+            }
             Database.saveStudent(info);
         }
-        MainDialog.refreshStudentList();        
+        MainDialog.refreshStudentList();
     }//GEN-LAST:event_jbSaveActionPerformed
 
     private void jtpPhoneKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtpPhoneKeyReleased
         jtpPhone.setText(jtpPhone.getText().replaceAll("[^\\d.]", ""));
-        info.setPhone(Long.parseLong(jtpPhone.getText()));
-        jbSave.setText("Save");
+        modified();
     }//GEN-LAST:event_jtpPhoneKeyReleased
 
     private void jtpNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtpNameKeyReleased
-        info.setName(jtpName.getText());
-        jbSave.setText("Save");
+        modified();
     }//GEN-LAST:event_jtpNameKeyReleased
 
     private void jtpEmailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtpEmailKeyReleased
-        info.setEmail(jtpEmail.getText());
-        jbSave.setText("Save");
+        modified();
     }//GEN-LAST:event_jtpEmailKeyReleased
 
+    private void batchComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_batchComboActionPerformed
+        modified();
+    }//GEN-LAST:event_batchComboActionPerformed
+
+    private void cbFeesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbFeesActionPerformed
+        modified();
+    }//GEN-LAST:event_cbFeesActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox batchCombo;
+    private javax.swing.JCheckBox cbFees;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JButton jbSave;
-    private javax.swing.JLabel jlBatch;
     private javax.swing.JTextPane jtpEmail;
     private javax.swing.JTextPane jtpName;
     private javax.swing.JTextPane jtpPhone;
