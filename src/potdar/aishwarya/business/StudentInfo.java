@@ -75,8 +75,15 @@ public class StudentInfo {
         this.feesPaid = feesPaid;
     }
 
-    public boolean matches(String s) {
-        System.out.println("match " + s + " " + this.name);
-        return (s == null) || (name.toLowerCase().contains(s.toLowerCase()));
+    public boolean matches(StudentFilter f) {
+        if (!f.getName().isEmpty() && !name.toLowerCase().contains(f.getName().toLowerCase()))
+            return false;
+        if (f.isFeesNotPaid() && feesPaid>0)
+            return false;
+        if (f.isFeesPaid() && feesPaid==0)
+            return false;
+        if (f.getBatchId() > 0 && f.getBatchId() != batch.getId())
+            return false;
+        return true;
     }
 }

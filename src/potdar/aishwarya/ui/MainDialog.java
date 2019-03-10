@@ -5,11 +5,13 @@
  */
 package potdar.aishwarya.ui;
 
+import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.UIManager;
 import potdar.aishwarya.business.BatchInfo;
 import potdar.aishwarya.business.Database;
 import potdar.aishwarya.business.ModuleInfo;
+import potdar.aishwarya.business.StudentFilter;
 import potdar.aishwarya.business.StudentInfo;
 
 /**
@@ -18,6 +20,7 @@ import potdar.aishwarya.business.StudentInfo;
  */
 public class MainDialog extends javax.swing.JDialog {
     private static MainDialog instance = null;
+    private StudentFilter filter = new StudentFilter();
 
     /**
      * Creates new form MainDialog
@@ -48,6 +51,10 @@ public class MainDialog extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         studentFilterTextField = new javax.swing.JTextField();
+        moduleFilterCombo = new javax.swing.JComboBox();
+        batchFilterCombo = new javax.swing.JComboBox();
+        feesNotPaidChk = new javax.swing.JCheckBox();
+        feesPaidChk = new javax.swing.JCheckBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         studentListPanel = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -60,6 +67,7 @@ public class MainDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Glorious Students");
         setBackground(new java.awt.Color(255, 204, 204));
+        setPreferredSize(new java.awt.Dimension(884, 600));
 
         jTabbedPane1.setMinimumSize(new java.awt.Dimension(805, 175));
 
@@ -123,6 +131,32 @@ public class MainDialog extends javax.swing.JDialog {
             }
         });
 
+        moduleFilterCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                moduleFilterComboActionPerformed(evt);
+            }
+        });
+
+        batchFilterCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                batchFilterComboActionPerformed(evt);
+            }
+        });
+
+        feesNotPaidChk.setText("Fees Not Paid");
+        feesNotPaidChk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                feesNotPaidChkActionPerformed(evt);
+            }
+        });
+
+        feesPaidChk.setText("Fees Paid");
+        feesPaidChk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                feesPaidChkActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -130,12 +164,25 @@ public class MainDialog extends javax.swing.JDialog {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(studentFilterTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(moduleFilterCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(batchFilterCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(feesPaidChk)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(feesNotPaidChk)
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(studentFilterTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(studentFilterTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(moduleFilterCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(batchFilterCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(feesNotPaidChk)
+                    .addComponent(feesPaidChk))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -263,8 +310,41 @@ public class MainDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void studentFilterTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_studentFilterTextFieldKeyReleased
-        loadStudentList();
+        updateStudentFilter();
     }//GEN-LAST:event_studentFilterTextFieldKeyReleased
+
+    private void moduleFilterComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moduleFilterComboActionPerformed
+        updateStudentFilter();
+        loadFilterBatch();
+    }//GEN-LAST:event_moduleFilterComboActionPerformed
+
+    private void batchFilterComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_batchFilterComboActionPerformed
+        updateStudentFilter();
+    }//GEN-LAST:event_batchFilterComboActionPerformed
+
+    private void feesPaidChkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_feesPaidChkActionPerformed
+        updateStudentFilter();
+    }//GEN-LAST:event_feesPaidChkActionPerformed
+
+    private void feesNotPaidChkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_feesNotPaidChkActionPerformed
+        updateStudentFilter();
+    }//GEN-LAST:event_feesNotPaidChkActionPerformed
+
+    private void updateStudentFilter() {
+        if (batchFilterCombo.getSelectedIndex() > 0)
+            filter.setBatchId(Database.getFilteredBatchList(filter).get(batchFilterCombo.getSelectedIndex()-1).getId());
+        if (moduleFilterCombo.getSelectedIndex() > 0)
+            filter.setModuleId(Database.getModuleList().get(moduleFilterCombo.getSelectedIndex()-1).getId());
+        if (feesNotPaidChk.isSelected() && feesPaidChk.isSelected()){
+            filter.setFeesNotPaid(false);
+            filter.setFeesPaid(false);
+        } else {
+            filter.setFeesNotPaid(feesNotPaidChk.isSelected());
+            filter.setFeesPaid(feesPaidChk.isSelected());
+        }
+        filter.setName(studentFilterTextField.getText());
+        loadStudentList();
+    }
 
     /**
      * @param args the command line arguments
@@ -302,7 +382,7 @@ public class MainDialog extends javax.swing.JDialog {
         studentListPanel.setLayout(new BoxLayout(studentListPanel, BoxLayout.Y_AXIS));
         StudentPanel p = new StudentPanel();
         studentListPanel.add(p);
-        for (StudentInfo s : Database.getStudentList(studentFilterTextField.getText())) {
+        for (StudentInfo s : Database.getStudentList(filter)) {
             p = new StudentPanel();
             p.setInfo(s);
             studentListPanel.add(p);
@@ -311,8 +391,17 @@ public class MainDialog extends javax.swing.JDialog {
         studentListPanel.repaint();
         jScrollPane1.getVerticalScrollBar().setValue(0);
     }
+    
+    private void loadFilterBatch() {
+        System.out.println("loadFilterBatchModule");
+        batchFilterCombo.removeAllItems();
+        batchFilterCombo.addItem("All Batches");
+        for(BatchInfo b : Database.getFilteredBatchList(filter))
+            batchFilterCombo.addItem(b);
+    }
 
     public static void refreshStudentList() {
+        instance.filter = new StudentFilter();
         instance.loadStudentList();
     }
 
@@ -347,6 +436,10 @@ public class MainDialog extends javax.swing.JDialog {
         }
         moduleListPanel.revalidate();
         moduleListPanel.repaint();
+        moduleFilterCombo.addItem("All Modules");
+        for(ModuleInfo m : Database.getModuleList())
+            moduleFilterCombo.addItem(m);
+        loadFilterBatch();
     }
 
     public static void refreshModuleList() {
@@ -356,7 +449,10 @@ public class MainDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox batchFilterCombo;
     private javax.swing.JPanel batchListPanel;
+    private javax.swing.JCheckBox feesNotPaidChk;
+    private javax.swing.JCheckBox feesPaidChk;
     private potdar.aishwarya.ui.ImagePanel imagePanel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -368,6 +464,7 @@ public class MainDialog extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JComboBox moduleFilterCombo;
     private javax.swing.JPanel moduleListPanel;
     private javax.swing.JTextField studentFilterTextField;
     private javax.swing.JPanel studentListPanel;

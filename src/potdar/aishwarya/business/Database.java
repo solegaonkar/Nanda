@@ -236,7 +236,7 @@ public class Database {
         return studentList;
     }
 
-    public static ArrayList<StudentInfo> getStudentList(String filter) {
+    public static ArrayList<StudentInfo> getStudentList(StudentFilter filter) {
         ArrayList<StudentInfo> filterList = new ArrayList<>();
         for (StudentInfo s : studentList) {
             if (s.matches(filter))
@@ -244,5 +244,12 @@ public class Database {
         }
         return filterList;
     }
-
+    
+    public static ArrayList<BatchInfo> getFilteredBatchList(StudentFilter filter) {
+        ArrayList<BatchInfo> filterList = new ArrayList<>();
+        for (BatchInfo b : batchList)
+            if ( filter.getModuleId() > 0 && filter.getModuleId() == b.getId())
+                filterList.add(b);
+        return filterList;
+    }
 }
